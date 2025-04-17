@@ -1,16 +1,35 @@
 import express from 'express';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-
+import userRouter from './routes/user.route.js'; // This is your router
 
 dotenv.config();
-mongoose.connect(process.env.MONGO).then(() => {
-  console.log('MongoDB connected!');
-}).catch((err) => {
-  console.log(err);
-});
+
 const app = express();
+
+// Optional: Middleware for parsing JSON
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO)
+  .then(() => {
+    console.log('MongoDB connected!');
+  })
+  .catch((err) => {
+    console.log('MongoDB connection error:', err);
+  });
+
+app.use('/api/user', userRouter); // ✅ use the correct imported router name
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000!');
+});
+
+app.use('/api/user', userRouter); // Use the imported router
+app.get('/test', (req, res) => {
+  res.json(
+    {
+      message:'Hello World!',
+});
 }
 );
+
