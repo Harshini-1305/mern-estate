@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js'; // This is your router
-
+import authRouter from './routes/auth.route.js'; // This is your router
 dotenv.config();
 
 const app = express();
@@ -25,6 +25,7 @@ app.listen(3000, () => {
 });
 
 app.use('/api/user', userRouter); // Use the imported router
+app.use('/api/auth', authRouter); // Use the imported 
 app.get('/test', (req, res) => {
   res.json(
     {
